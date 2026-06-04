@@ -29,16 +29,19 @@ body{font-family:'Montserrat',sans-serif;background:var(--blk);color:var(--txt);
 #splash.out{opacity:0;transition:opacity .85s;pointer-events:none;}
 
 /* NAV */
-#nav{position:fixed;top:0;left:0;right:0;z-index:500;background:rgba(0,0,0,.9);backdrop-filter:blur(12px);border-bottom:1px solid var(--bor);display:flex;align-items:center;justify-content:space-between;padding:0 20px;height:54px;}
-#nav img{height:26px;}
-.nlinks{display:flex;gap:7px;}
-.nbtn{background:none;border:1px solid rgba(255,255,255,.12);border-radius:5px;color:rgba(255,255,255,.7);font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:7px 13px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:5px;transition:all .2s;}
-.nbtn:hover{border-color:var(--gold);color:var(--gold);}
-.nbtn.g{background:var(--gold);border-color:var(--gold);color:#000;}
-.nbtn.g:hover{background:var(--gd);}
+#nav{position:fixed;top:0;left:0;right:0;z-index:500;background:rgba(0,0,0,.92);backdrop-filter:blur(14px);border-bottom:1px solid rgba(229,170,60,.15);display:flex;align-items:center;justify-content:space-between;padding:0 24px;height:58px;}
+#nav img{height:36px;object-fit:contain;}
+.nlinks{display:flex;gap:10px;align-items:center;}
+.nbtn{background:transparent;border:1.5px solid rgba(229,170,60,.35);border-radius:50px;color:rgba(255,255,255,.65);font-family:'Montserrat',sans-serif;font-size:9px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;padding:8px 20px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:6px;transition:all .25s;position:relative;overflow:hidden;}
+.nbtn::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(229,170,60,.08),transparent);opacity:0;transition:opacity .25s;}
+.nbtn:hover{border-color:var(--gold);color:var(--gold);transform:translateY(-1px);box-shadow:0 4px 16px rgba(229,170,60,.15);}
+.nbtn:hover::before{opacity:1;}
+.nbtn.g{background:transparent;border-color:rgba(229,170,60,.35);color:rgba(255,255,255,.65);}
+.nbtn.g:hover{border-color:var(--gold);color:var(--gold);}
+.nbtn.g::before{opacity:0;}
 
 /* HERO */
-.hero{position:relative;z-index:1;background:linear-gradient(180deg,#000,#0d0d0d 70%,#111);text-align:center;padding:80px 20px 44px;border-bottom:1px solid var(--bor);}
+.hero{position:relative;z-index:1;background:linear-gradient(180deg,#000,#0d0d0d 70%,#111);text-align:center;padding:84px 20px 44px;border-bottom:1px solid var(--bor);}
 .hero img.hlogo{width:90px;height:90px;object-fit:contain;margin:0 auto 14px;display:block;filter:drop-shadow(0 0 20px rgba(229,170,60,.3));}
 .hbrand{font-size:10px;font-weight:700;letter-spacing:5px;text-transform:uppercase;color:var(--gold);margin-bottom:10px;}
 .htitle{font-size:clamp(38px,9vw,86px);font-weight:900;letter-spacing:-1px;line-height:.95;text-transform:uppercase;}
@@ -248,6 +251,7 @@ footer a:hover{color:var(--gold);}
 .admbtn{background:none;border:none;font-family:'Montserrat',sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.15);cursor:pointer;margin-top:8px;display:block;margin-left:auto;margin-right:auto;}
 .admbtn:hover{color:var(--mut);}
 </style>
+<!-- v1780610640 -->
 </head>
 <body>
 
@@ -265,7 +269,7 @@ footer a:hover{color:var(--gold);}
   <img src="logo-tipo.png" alt="Perro Vago Premium">
   <div class="nlinks">
     <a class="nbtn" href="#premios">🏆 Premios</a>
-    <a class="nbtn g" href="ranking.html" target="_blank">🥇 Ranking</a>
+    <a class="nbtn" href="ranking.html" target="_blank">🥇 Ranking</a>
   </div>
 </nav>
 
@@ -816,55 +820,48 @@ function onKS(id,num){
 }
 
 function propagate(num){
-  var id=kNI[num];if(!id){console.log('propagate: no id for num='+num);return;}
+  var id=kNI[num];if(!id)return;
   var hel=document.getElementById(id+'_h'),ael=document.getElementById(id+'_a');
-  if(!hel||!ael||hel.value===''||ael.value===''){console.log('propagate '+num+': missing inputs or empty');return;}
+  if(!hel||!ael||hel.value===''||ael.value==='')return;
 
-  // Get team names from labels if not in kTeams registry
+  // Get team names
   var ht=getKT(num,'h');
   var at=getKT(num,'a');
-  console.log('propagate '+num+': ht='+ht+' at='+at);
 
-  // Fallback: read data-team attribute from label
-  if(!ht){
-    var hlbl=document.getElementById(id+'_hl');
-    if(hlbl)ht=hlbl.getAttribute('data-team')||null;
-    console.log('propagate '+num+': ht fallback from data-team='+ht);
-    if(ht)setKT(num,'h',ht);
-  }
-  if(!at){
-    var albl=document.getElementById(id+'_al');
-    if(albl)at=albl.getAttribute('data-team')||null;
-    console.log('propagate '+num+': at fallback from data-team='+at);
-    if(at)setKT(num,'a',at);
-  }
-  // Also check third input
+  // Fallback: data-team attribute
+  if(!ht){var hl=document.getElementById(id+'_hl');if(hl){ht=hl.getAttribute('data-team')||null;if(ht)setKT(num,'h',ht);}}
+  if(!at){var al=document.getElementById(id+'_al');if(al){at=al.getAttribute('data-team')||null;if(at)setKT(num,'a',at);}}
+
+  // Fallback: third input
   var tinp=document.getElementById(id+'_t');
   if(tinp&&tinp.value.trim()){
     var found=matchTeam(tinp.value.trim());
-    if(found){at=found;setKT(num,'a',found);}
-    else if(tinp.value.trim().length>1){at=tinp.value.trim();setKT(num,'a',at);}
+    var tv=found||tinp.value.trim();
+    if(tv.length>1){at=tv;setKT(num,'a',tv);}
   }
 
-  if(!ht||!at||ht.length<2||at.length<2){console.log('propagate '+num+': EARLY RETURN ht='+ht+' at='+at);return;}
+  if(!ht||!at||ht.length<2||at.length<2)return;
 
   var hv=parseInt(hel.value),av=parseInt(ael.value);
   var winner=hv>av?ht:at;
   var loser=hv>av?at:ht;
-  console.log('propagate '+num+': winner='+winner+' loser='+loser);
 
   KOM.forEach(function(m){
-    var mid=kNI[m.n];if(!mid)return;
+    var mid=kNI[m.n];if(!mid||m.n===num)return;  // skip self to avoid infinite loop
+    var updated=false;
     if(m.wo){
-      if(m.wo[0]===num){console.log('  -> setting match '+m.n+' home='+winner);setKT(m.n,'h',winner);setKL(mid+'_hl',winner);}
-      if(m.wo[1]===num){console.log('  -> setting match '+m.n+' away='+winner);setKT(m.n,'a',winner);setKL(mid+'_al',winner);}
+      if(m.wo[0]===num){setKT(m.n,'h',winner);setKL(mid+'_hl',winner);updated=true;}
+      if(m.wo[1]===num){setKT(m.n,'a',winner);setKL(mid+'_al',winner);updated=true;}
     }
     if(m.lo){
-      if(m.lo[0]===num){setKT(m.n,'h',loser);setKL(mid+'_hl',loser);}
-      if(m.lo[1]===num){setKT(m.n,'a',loser);setKL(mid+'_al',loser);}
+      if(m.lo[0]===num){setKT(m.n,'h',loser);setKL(mid+'_hl',loser);updated=true;}
+      if(m.lo[1]===num){setKT(m.n,'a',loser);setKL(mid+'_al',loser);updated=true;}
     }
-    var dh=document.getElementById(mid+'_h'),da=document.getElementById(mid+'_a');
-    if(dh&&da&&dh.value!==''&&da.value!=='')propagate(m.n);
+    // Only cascade downstream if this match already has a score
+    if(updated){
+      var dh=document.getElementById(mid+'_h'),da=document.getElementById(mid+'_a');
+      if(dh&&da&&dh.value!==''&&da.value!=='')propagate(m.n);
+    }
   });
 }
 
@@ -1050,7 +1047,15 @@ function renderAP(list){
   div.innerHTML=h+'</tbody></table>';
 }
 
-window.addEventListener('load',function(){setTimeout(runSplash,150);});
+window.addEventListener('load',function(){
+  // Only show splash on first visit, not when returning from ranking
+  if(!sessionStorage.getItem('splashShown')){
+    sessionStorage.setItem('splashShown','1');
+    setTimeout(runSplash,150);
+  } else {
+    document.getElementById('splash').style.display='none';
+  }
+});
 setInterval(loadRanking,60000);
 init();
 </script>

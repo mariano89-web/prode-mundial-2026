@@ -19,8 +19,8 @@ body::before{content:'';position:fixed;inset:0;background-image:repeating-linear
 .nbtn::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(229,170,60,.08),transparent);opacity:0;transition:opacity .25s;}
 .nbtn:hover{border-color:var(--gold);color:var(--gold);transform:translateY(-1px);box-shadow:0 4px 16px rgba(229,170,60,.15);}
 .nbtn:hover::before{opacity:1;}
-.nbtn.g{background:linear-gradient(135deg,var(--gold),var(--gd));border-color:transparent;color:#000;font-weight:800;box-shadow:0 2px 12px rgba(229,170,60,.3);}
-.nbtn.g:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(229,170,60,.45);}
+.nbtn.g{background:transparent;border-color:rgba(229,170,60,.35);color:rgba(255,255,255,.65);}
+.nbtn.g:hover{border-color:var(--gold);color:var(--gold);}
 
 /* HERO */
 .rhero{position:relative;z-index:1;background:linear-gradient(180deg,#000,#0d0d0d 70%,#111);text-align:center;padding:90px 20px 44px;border-bottom:1px solid var(--bor);}
@@ -199,7 +199,7 @@ footer a:hover{color:var(--gold);}
   <div id="dring">
     <svg viewBox="0 0 76 76" xmlns="http://www.w3.org/2000/svg">
       <defs><path id="cp" d="M38,38 m-28,0 a28,28 0 1,1 56,0 a28,28 0 1,1 -56,0"/></defs>
-      <text><textPath href="#cp" startOffset="0%" textLength="175.93" lengthAdjust="spacingAndGlyphs">AGENCIADOIT! ·</textPath></text>
+      <text><textPath href="#cp" textLength="175.9" lengthAdjust="spacing">AGENCIADOIT! ·</textPath></text>
     </svg>
   </div>
   <div id="dinner"><img src="logo-doit.png" alt="DoIt"></div>
