@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ranking · Prode del Mundial 2026 · Perro Vago</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{--gold:#e5aa3c;--gd:#c48f28;--blk:#000;--d1:#111;--d2:#1a1a1a;--d3:#222;--card:#1c1c1c;--bor:rgba(229,170,60,.18);--txt:#f0f0f0;--mut:#666;--grn:#2ecc71;--red:#e74c3c;}
+*{margin:0;padding:0;box-sizing:border-box;}html{scroll-behavior:smooth;}
+body{font-family:'Montserrat',sans-serif;background:var(--blk);color:var(--txt);min-height:100vh;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;background-image:repeating-linear-gradient(0deg,transparent,transparent 60px,rgba(229,170,60,.02) 60px,rgba(229,170,60,.02) 61px),repeating-linear-gradient(90deg,transparent,transparent 60px,rgba(229,170,60,.02) 60px,rgba(229,170,60,.02) 61px);pointer-events:none;z-index:0;}
+
+/* NAV */
+#nav{position:fixed;top:0;left:0;right:0;z-index:500;background:rgba(0,0,0,.92);backdrop-filter:blur(14px);border-bottom:1px solid rgba(229,170,60,.15);display:flex;align-items:center;justify-content:space-between;padding:0 24px;height:58px;}
+#nav img{height:36px;object-fit:contain;}
+.nlinks{display:flex;gap:10px;align-items:center;}
+.nbtn{background:transparent;border:1.5px solid rgba(229,170,60,.35);border-radius:50px;color:rgba(255,255,255,.65);font-family:'Montserrat',sans-serif;font-size:9px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;padding:8px 20px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:6px;transition:all .25s;position:relative;overflow:hidden;}
+.nbtn::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(229,170,60,.08),transparent);opacity:0;transition:opacity .25s;}
+.nbtn:hover{border-color:var(--gold);color:var(--gold);transform:translateY(-1px);box-shadow:0 4px 16px rgba(229,170,60,.15);}
+.nbtn:hover::before{opacity:1;}
+.nbtn.g{background:linear-gradient(135deg,var(--gold),var(--gd));border-color:transparent;color:#000;font-weight:800;box-shadow:0 2px 12px rgba(229,170,60,.3);}
+.nbtn.g:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(229,170,60,.45);}
+
+/* HERO */
+.rhero{position:relative;z-index:1;background:linear-gradient(180deg,#000,#0d0d0d 70%,#111);text-align:center;padding:90px 20px 44px;border-bottom:1px solid var(--bor);}
+.rhero img.hl{width:80px;height:80px;object-fit:contain;margin:0 auto 14px;display:block;filter:drop-shadow(0 0 20px rgba(229,170,60,.3));}
+.rbrand{font-size:10px;font-weight:700;letter-spacing:5px;text-transform:uppercase;color:var(--gold);margin-bottom:10px;}
+.rtitle{font-size:clamp(32px,7vw,72px);font-weight:900;letter-spacing:-1px;line-height:.95;text-transform:uppercase;}
+.rtitle span{color:var(--gold);}
+.rsub{font-size:11px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--mut);margin-top:10px;}
+
+/* STATS */
+.sbar{display:flex;justify-content:center;flex-wrap:wrap;background:var(--d1);border-bottom:1px solid var(--bor);position:relative;z-index:1;}
+.si{flex:1;min-width:80px;max-width:160px;text-align:center;padding:16px 8px;border-right:1px solid rgba(255,255,255,.05);}
+.si:last-child{border-right:none;}
+.snum{font-size:28px;font-weight:900;color:var(--gold);}
+.slbl{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--mut);margin-top:2px;}
+
+/* PRIZES */
+.prizes{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;padding:28px 20px;background:var(--d1);border-bottom:1px solid var(--bor);position:relative;z-index:1;}
+.prize{display:flex;align-items:center;gap:10px;background:rgba(229,170,60,.06);border:1px solid rgba(229,170,60,.2);border-radius:50px;padding:8px 18px;}
+.prize.f{border-color:var(--gold);}
+.prize-pos{font-size:18px;}
+.prize-text{font-size:10px;font-weight:700;color:var(--txt);letter-spacing:.5px;}
+.prize-text span{color:var(--gold);display:block;font-size:9px;letter-spacing:2px;text-transform:uppercase;margin-bottom:2px;}
+
+/* WINNER BANNER */
+#winnerBanner{display:none;position:relative;z-index:1;background:linear-gradient(135deg,rgba(229,170,60,.15),rgba(229,170,60,.05));border-top:2px solid var(--gold);border-bottom:2px solid var(--gold);padding:32px 20px;text-align:center;}
+#winnerBanner.show{display:block;}
+.wb-title{font-size:12px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;}
+.wb-name{font-size:clamp(28px,6vw,56px);font-weight:900;text-transform:uppercase;letter-spacing:2px;margin-bottom:4px;}
+.wb-sub{font-size:13px;color:var(--mut);}
+.wb-trophy{font-size:56px;margin-bottom:12px;display:block;}
+
+/* RANKING TABLE */
+.wrap{max-width:860px;margin:0 auto;padding:36px 20px 80px;position:relative;z-index:1;}
+.rtop{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px;}
+.rtop h2{font-size:22px;font-weight:900;text-transform:uppercase;letter-spacing:1px;}
+.rtop h2 span{color:var(--gold);}
+.refresh-btn{background:none;border:1px solid rgba(255,255,255,.15);border-radius:50px;color:var(--mut);font-family:'Montserrat',sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:7px 16px;cursor:pointer;transition:all .2s;}
+.refresh-btn:hover{border-color:var(--gold);color:var(--gold);}
+.last-update{font-size:10px;color:var(--mut);letter-spacing:1px;}
+
+/* TABLE */
+.rk-table{width:100%;background:var(--card);border:1px solid rgba(255,255,255,.07);border-radius:10px;overflow:hidden;}
+.rk-thead{background:linear-gradient(135deg,#1a1a1a,#222);border-bottom:1px solid var(--bor);}
+.rk-thead tr th{padding:13px 16px;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--mut);text-align:left;}
+.rk-thead tr th:last-child{text-align:right;}
+.rk-thead tr th.center{text-align:center;}
+.rk-tbody tr{border-bottom:1px solid rgba(255,255,255,.05);transition:background .15s;}
+.rk-tbody tr:last-child{border-bottom:none;}
+.rk-tbody tr:hover{background:rgba(255,255,255,.025);}
+.rk-tbody tr.top1{background:linear-gradient(90deg,rgba(255,215,0,.06),transparent);}
+.rk-tbody tr.top2{background:linear-gradient(90deg,rgba(192,192,192,.04),transparent);}
+.rk-tbody tr.top3{background:linear-gradient(90deg,rgba(205,127,50,.04),transparent);}
+.rk-tbody td{padding:13px 16px;font-size:13px;vertical-align:middle;}
+.rk-tbody td.center{text-align:center;}
+.rk-tbody td.right{text-align:right;}
+
+/* Position cell */
+.pos-cell{display:flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;font-size:13px;font-weight:900;}
+.pos-cell.p1{background:rgba(255,215,0,.15);color:#ffd700;border:1px solid rgba(255,215,0,.3);}
+.pos-cell.p2{background:rgba(192,192,192,.1);color:#bbb;border:1px solid rgba(192,192,192,.2);}
+.pos-cell.p3{background:rgba(205,127,50,.1);color:#cd7f32;border:1px solid rgba(205,127,50,.2);}
+.pos-cell.pn{background:rgba(255,255,255,.05);color:var(--mut);border:1px solid rgba(255,255,255,.08);font-size:11px;}
+
+/* Name cell */
+.name-cell .alias{font-size:14px;font-weight:700;letter-spacing:.3px;}
+.name-cell .realname{font-size:10px;color:var(--mut);margin-top:1px;}
+
+/* Champion cell */
+.champ-cell{display:flex;align-items:center;gap:7px;font-size:12px;font-weight:600;color:var(--txt);}
+.champ-cell img{width:22px;height:15px;object-fit:cover;border-radius:2px;border:1px solid rgba(255,255,255,.1);}
+
+/* Points cell */
+.pts-big{font-size:20px;font-weight:900;color:var(--gold);}
+.pts-lbl{font-size:9px;color:var(--mut);font-weight:700;letter-spacing:1px;display:block;}
+
+/* EMPTY / LOADING */
+.rk-empty{padding:48px;text-align:center;color:var(--mut);font-size:13px;font-weight:600;letter-spacing:1px;}
+
+/* DOIT SEAL */
+#dseal{position:fixed;bottom:24px;right:24px;z-index:400;width:76px;height:76px;cursor:pointer;text-decoration:none;display:block;}
+#dseal:hover #dinner{transform:scale(1.08);}
+#dring{position:absolute;inset:0;animation:rot 10s linear infinite;}
+#dseal:hover #dring{animation-play-state:paused;}
+#dring svg{width:100%;height:100%;}
+#dring text{fill:#e5aa3c;font-size:9.8px;font-weight:700;letter-spacing:2.8px;}
+#dinner{position:absolute;inset:18px;background:linear-gradient(135deg,#e5aa3c,#c48f28);border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(229,170,60,.45);transition:transform .3s;}
+#dinner img{width:20px;height:20px;object-fit:contain;animation:hb 3.5s ease-in-out infinite;}
+@keyframes rot{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+@keyframes hb{0%,70%,100%{transform:scale(1)}75%{transform:scale(1.22)}80%{transform:scale(1)}85%{transform:scale(1.12)}90%{transform:scale(1)}}
+
+footer{text-align:center;padding:16px 20px 40px;font-size:10px;color:rgba(255,255,255,.2);letter-spacing:1px;text-transform:uppercase;border-top:1px solid rgba(255,255,255,.05);}
+footer img{width:32px;opacity:.2;display:block;margin:0 auto 10px;}
+footer a{color:rgba(255,255,255,.4);text-decoration:none;}
+footer a:hover{color:var(--gold);}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <img src="logo-tipo.png" alt="Perro Vago Premium">
+  <div class="nlinks">
+    <a class="nbtn" href="index.html">← Hacé tu prode</a>
+    <a class="nbtn" href="index.html#premios">🏆 Premios</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="rhero">
+  <img class="hl" src="logo-perro.png" alt="Perro Vago">
+  <div class="rbrand">Cerveza Artesanal · Córdoba Argentina</div>
+  <h1 class="rtitle">Tabla de<br><span>Posiciones</span></h1>
+  <p class="rsub">Prode del Mundial 2026 · Actualizado en tiempo real</p>
+</div>
+
+<!-- STATS -->
+<div class="sbar">
+  <div class="si"><div class="snum" id="statTotal">—</div><div class="slbl">Participantes</div></div>
+  <div class="si"><div class="snum" id="statLeader">—</div><div class="slbl">Puntaje líder</div></div>
+  <div class="si"><div class="snum" id="statAvg">—</div><div class="slbl">Promedio pts</div></div>
+  <div class="si"><div class="snum" id="daysLeft">—</div><div class="slbl">Días restantes</div></div>
+</div>
+
+<!-- PRIZES -->
+<div class="prizes">
+  <div class="prize f">
+    <div class="prize-pos">🥇</div>
+    <div class="prize-text"><span>1er Premio</span>Campera · Eco Vasos · 3 Four Packs</div>
+  </div>
+  <div class="prize">
+    <div class="prize-pos">🥈</div>
+    <div class="prize-text"><span>2do Premio</span>3 Four Packs · Eco Vasos</div>
+  </div>
+  <div class="prize">
+    <div class="prize-pos">🥉</div>
+    <div class="prize-text"><span>3er Premio</span>1 Four Pack · Eco Vaso</div>
+  </div>
+</div>
+
+<!-- WINNER BANNER -->
+<div id="winnerBanner">
+  <span class="wb-trophy">🏆</span>
+  <div class="wb-title">¡Ganador del Prode!</div>
+  <div class="wb-name" id="wbName">—</div>
+  <div class="wb-sub" id="wbSub">—</div>
+</div>
+
+<!-- TABLE -->
+<div class="wrap">
+  <div class="rtop">
+    <h2>🥇 Ranking <span>General</span></h2>
+    <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+      <span class="last-update" id="lastUpdate"></span>
+      <button class="refresh-btn" onclick="loadRanking()">↺ Actualizar</button>
+    </div>
+  </div>
+
+  <table class="rk-table" id="rkTable" style="border-collapse:collapse;width:100%;">
+    <thead class="rk-thead">
+      <tr>
+        <th class="center" style="width:60px;">#</th>
+        <th>Participante</th>
+        <th>Campeón elegido</th>
+        <th class="right">Puntos</th>
+      </tr>
+    </thead>
+    <tbody class="rk-tbody" id="rkBody">
+      <tr><td colspan="4"><div class="rk-empty">Cargando ranking...</div></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- DOIT SEAL -->
+<a id="dseal" href="https://www.agenciadoit.com" target="_blank" title="AGENCIA DO IT!">
+  <div id="dring">
+    <svg viewBox="0 0 76 76" xmlns="http://www.w3.org/2000/svg">
+      <defs><path id="cp" d="M38,38 m-28,0 a28,28 0 1,1 56,0 a28,28 0 1,1 -56,0"/></defs>
+      <text><textPath href="#cp" startOffset="0%" textLength="175.93" lengthAdjust="spacingAndGlyphs">AGENCIADOIT! ·</textPath></text>
+    </svg>
+  </div>
+  <div id="dinner"><img src="logo-doit.png" alt="DoIt"></div>
+</a>
+
+<footer>
+  <img src="logo-perro.png" alt="">
+  Perro Vago Premium · Córdoba, Argentina · Prode Mundial 2026<br><br>
+  Desarrollado por <a href="https://www.agenciadoit.com" target="_blank"><strong>AGENCIA DO IT!</strong></a>
+</footer>
+
+<script>
+var GAS = 'YOUR_APPS_SCRIPT_URL_HERE';
+
+var FL={
+  'México':'mx','Sudáfrica':'za','Corea del Sur':'kr','República Checa':'cz',
+  'Canadá':'ca','Bosnia-Herzegovina':'ba','Qatar':'qa','Suiza':'ch',
+  'Brasil':'br','Marruecos':'ma','Haití':'ht','Escocia':'gb-sct',
+  'Estados Unidos':'us','Paraguay':'py','Australia':'au','Turquía':'tr',
+  'Alemania':'de','Curazao':'cw','Costa de Marfil':'ci','Ecuador':'ec',
+  'Países Bajos':'nl','Japón':'jp','Suecia':'se','Túnez':'tn',
+  'Bélgica':'be','Egipto':'eg','Irán':'ir','Nueva Zelanda':'nz',
+  'España':'es','Cabo Verde':'cv','Arabia Saudita':'sa','Uruguay':'uy',
+  'Francia':'fr','Senegal':'sn','Irak':'iq','Noruega':'no',
+  'Argentina':'ar','Argelia':'dz','Austria':'at','Jordania':'jo',
+  'Portugal':'pt','RD Congo':'cd','Uzbekistán':'uz','Colombia':'co',
+  'Inglaterra':'gb-eng','Croacia':'hr','Ghana':'gh','Panamá':'pa'
+};
+function fs(n){return FL[n]?'https://flagcdn.com/w40/'+FL[n]+'.png':'';}
+
+function calcDays(){
+  var end=new Date('2026-07-19');
+  var now=new Date();
+  var diff=Math.ceil((end-now)/86400000);
+  document.getElementById('daysLeft').textContent=diff>0?diff:'FIN';
+}
+
+async function loadRanking(){
+  document.getElementById('lastUpdate').textContent='Actualizando...';
+  
+  if(GAS==='YOUR_APPS_SCRIPT_URL_HERE'){
+    // Local fallback
+    var local=JSON.parse(localStorage.getItem('pv26')||'[]');
+    renderRanking(local.map(function(p,i){return {alias:p.alias||p.name,name:p.name,champion:p.champion||'—',pts:p.pts||0,filled:0};}));
+    return;
+  }
+
+  try{
+    var r=await fetch(GAS,{method:'POST',body:JSON.stringify({action:'getStandings'})});
+    var d=await r.json();
+    if(d.ok){
+      renderRanking(d.standings);
+      document.getElementById('lastUpdate').textContent='Última actualización: '+new Date().toLocaleTimeString('es-AR');
+    }
+  }catch(e){
+    document.getElementById('rkBody').innerHTML='<tr><td colspan="4"><div class="rk-empty">Error al cargar. Intentá de nuevo.</div></td></tr>';
+    document.getElementById('lastUpdate').textContent='';
+  }
+}
+
+function renderRanking(standings){
+  var body=document.getElementById('rkBody');
+
+  if(!standings||!standings.length){
+    body.innerHTML='<tr><td colspan="4"><div class="rk-empty">AÚN NO HAY PARTICIPANTES</div></td></tr>';
+    updateStats([]);
+    return;
+  }
+
+  // Sort by points desc
+  var sorted=standings.slice().sort(function(a,b){return (b.pts||0)-(a.pts||0);});
+
+  // Stats
+  updateStats(sorted);
+
+  // Winner banner
+  var tournEnd=new Date('2026-07-19');
+  if(new Date()>tournEnd && sorted.length){
+    var w=sorted[0];
+    document.getElementById('winnerBanner').classList.add('show');
+    document.getElementById('wbName').textContent=w.alias+(w.name&&w.name!==w.alias?' ('+w.name+')':'');
+    document.getElementById('wbSub').textContent=w.pts+' puntos · Campeón elegido: '+(w.champion||'—');
+  }
+
+  // Build rows
+  var html='';
+  sorted.forEach(function(p,i){
+    var pos=i+1;
+    var posClass=pos===1?'p1':pos===2?'p2':pos===3?'p3':'pn';
+    var posIcon=pos===1?'🥇':pos===2?'🥈':pos===3?'🥉':pos;
+    var rowClass=pos===1?'top1':pos===2?'top2':pos===3?'top3':'';
+    var src=fs(p.champion);
+    var champHTML=src
+      ?'<div class="champ-cell"><img src="'+src+'" width="22" height="15" alt="'+p.champion+'"> '+p.champion+'</div>'
+      :'<div class="champ-cell">'+( p.champion||'—')+'</div>';
+
+    html+='<tr class="'+rowClass+'">'
+      +'<td class="center"><div class="pos-cell '+posClass+'">'+posIcon+'</div></td>'
+      +'<td><div class="name-cell"><div class="alias">'+p.alias+'</div>'
+      +(p.name&&p.name!==p.alias?'<div class="realname">'+p.name+'</div>':'')
+      +'</div></td>'
+      +'<td>'+champHTML+'</td>'
+      +'<td class="right"><div class="pts-big">'+(p.pts||0)+'</div><span class="pts-lbl">pts</span></td>'
+      +'</tr>';
+  });
+
+  body.innerHTML=html;
+}
+
+function updateStats(standings){
+  document.getElementById('statTotal').textContent=standings.length||0;
+  if(standings.length){
+    document.getElementById('statLeader').textContent=standings[0].pts||0;
+    var avg=Math.round(standings.reduce(function(s,p){return s+(p.pts||0);},0)/standings.length);
+    document.getElementById('statAvg').textContent=avg;
+  } else {
+    document.getElementById('statLeader').textContent='—';
+    document.getElementById('statAvg').textContent='—';
+  }
+}
+
+calcDays();
+loadRanking();
+setInterval(loadRanking, 60000);
+</script>
+</body>
+</html>
