@@ -2,6 +2,9 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Prode del Mundial 2026 · Perro Vago</title>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&display=swap" rel="stylesheet">
@@ -269,7 +272,7 @@ footer a:hover{color:var(--gold);}
   <img src="logo-tipo.png" alt="Perro Vago Premium">
   <div class="nlinks">
     <a class="nbtn" href="#premios">🏆 Premios</a>
-    <a class="nbtn" href="ranking.html" target="_blank">🥇 Ranking</a>
+    <a class="nbtn" href="ranking.html">🥇 Ranking</a>
   </div>
 </nav>
 
@@ -369,7 +372,7 @@ footer a:hover{color:var(--gold);}
   <div class="rk" id="ranking">
     <div class="rkh">
       <h2>🥇 Tabla de <span style="color:var(--gold)">Posiciones</span></h2>
-      <a href="ranking.html" target="_blank">Ver ranking completo →</a>
+      <a href="ranking.html">Ver ranking completo →</a>
     </div>
     <div class="rkb" id="rkb"><div class="re">Cargando...</div></div>
   </div>
@@ -432,7 +435,7 @@ footer a:hover{color:var(--gold);}
 </div>
 
 <script>
-var GAS = 'YOUR_APPS_SCRIPT_URL_HERE';
+var GAS = 'https://script.google.com/macros/s/AKfycbzeYk2ThjjyUeE6BjA1WLCs2FILp2aKnHiFJSo1c70WLJ3zhhl0xiTGelNdYep7-KbY/exec';
 var CLOSE = new Date('2026-06-17T01:00:00Z');
 
 var FL = {
@@ -949,7 +952,7 @@ function renderRank(list){
     var src=fs(p.champion);
     return '<div class="rr"><div class="rpos '+cls+'">'+ico+'</div><div><div class="ral">'+p.alias+' <span style="font-size:10px;color:var(--mut);font-weight:500">('+p.name+')</span></div><div class="rin">'+(src?'<img src="'+src+'" width="15" height="10" style="object-fit:cover;border-radius:2px;"> ':'')+p.champion+'</div></div><div><div class="rpt">'+(p.pts||0)+'<small>PUNTOS</small></div></div></div>';
   }).join('');
-  if(list.length>5)html+='<div style="padding:14px;text-align:center;"><a href="ranking.html" target="_blank" style="color:var(--gold);font-size:11px;font-weight:700;text-transform:uppercase;text-decoration:none;">Ver todos los '+list.length+' →</a></div>';
+  if(list.length>5)html+='<div style="padding:14px;text-align:center;"><a href="ranking.html" style="color:var(--gold);font-size:11px;font-weight:700;text-transform:uppercase;text-decoration:none;">Ver todos los '+list.length+' →</a></div>';
   b.innerHTML=html;
 }
 function renderLocal(list){
@@ -1048,9 +1051,9 @@ function renderAP(list){
 }
 
 window.addEventListener('load',function(){
-  // Only show splash on first visit, not when returning from ranking
-  if(!sessionStorage.getItem('splashShown')){
-    sessionStorage.setItem('splashShown','1');
+  // Only show splash once per browser session (localStorage persists navigation)
+  if(!localStorage.getItem('splashShown')){
+    localStorage.setItem('splashShown','1');
     setTimeout(runSplash,150);
   } else {
     document.getElementById('splash').style.display='none';
